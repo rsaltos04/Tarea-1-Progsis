@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include "datos.h"
 #include "calculos.h"
+#include <string.h>
+#include <time.h>
+#include <stddef.h>
 
 void mostrar_menu(){
   printf("Seleccione la figura geométrica:\n");
@@ -249,3 +252,138 @@ void mostrar_resultado(const char* descripcion, float valor) {
 }
 
 
+
+int verificarUsuarioContraseña(char* ruta, char* usuario, char* contrasena){
+    FILE *archivo;
+    char linea[100];
+    archivo=fopen(ruta,"r");
+    int bo1=0;
+    int bo2=0;
+
+    while ((fgets(linea,sizeof(linea),archivo)!=NULL) && ((bo1==0) || (bo2==0)))
+    {
+        linea[strcspn(linea, "\r\n")] = 0;
+        char* part1=strtok(linea,"-");
+        char* part2=strtok(NULL,"-");
+        int bol1=strcmp(part1,usuario)==0;
+        int bol2=strcmp(part2,contrasena)==0;
+        if ( bol1 && bol2){
+            bo1=1;
+            bo2=1;
+        }
+    }
+    fclose(archivo);
+    if ((bo1==1) && (bo2==1)){
+        printf("Ingreso al sistema correctamente\n");
+        return 1;
+    }
+    return 0;
+
+    
+}
+void registroSistema(int bol,char* ruta,char* usuario, char* contrasena){
+    FILE *archivo;
+    char salida[50]="";
+    char fecha[70];
+    tiempoLocal(fecha, sizeof(fecha));
+    archivo=fopen(ruta,"a");
+    if (bol){
+            strcat(salida,fecha);
+            strcat(salida,": ");
+            strcat(salida,usuario);
+            strcat(salida," - ");
+            strcat(salida,"Ingreso exitoso al sistema");
+            fprintf(archivo,"%s\n",salida);
+
+    }else{
+            strcat(salida,fecha);
+            strcat(salida,": ");
+            strcat(salida,usuario);
+            strcat(salida," - ");
+            strcat(salida,"Ingreso fallido usuario/clave erróneo");
+            fprintf(archivo,"%s\n",salida);
+    }
+    fclose(archivo);
+    
+}
+
+void tiempoLocal(char* fechaHora, size_t tamano){
+     time_t t = time(NULL);
+    struct tm tiempoLocal = *localtime(&t);
+    int bytesEscritos = strftime(fechaHora, tamano, "%Y/%m/%d", &tiempoLocal);
+    
+}
+
+void RegistroAccion(char* ruta,char* usuario, int accion){
+
+    FILE *archivo;
+    char salida[50]="";
+    char fecha[70];
+    tiempoLocal(fecha, sizeof(fecha));
+    archivo=fopen(ruta,"a");
+    strcat(salida,fecha);
+    strcat(salida,": ");
+    strcat(salida,usuario);
+    strcat(salida," - ");
+    switch (accion)
+    {
+    case 1:
+        strcat(salida,"Triangulo");
+        fprintf(archivo,"%s\n",salida);
+        break;
+    case 2:
+        strcat(salida,"Paralelogramo");
+        fprintf(archivo,"%s\n",salida);
+        break;
+    case 3:
+        strcat(salida,"Cuadrado");
+        fprintf(archivo,"%s\n",salida);
+        break;    
+    case 4:
+        strcat(salida,"Rectangulo");
+        fprintf(archivo,"%s\n",salida);
+        break;
+    case 5:
+        strcat(salida,"Rombo");
+        fprintf(archivo,"%s\n",salida);
+        break;
+    case 6:
+        strcat(salida,"Trapecio");
+        fprintf(archivo,"%s\n",salida);
+        break;    
+    case 7:
+        strcat(salida,"Circulo");
+        fprintf(archivo,"%s\n",salida);
+        break;    
+    case 8:
+        strcat(salida,"Poligono");
+        fprintf(archivo,"%s\n",salida);
+        break;
+    case 9:
+        strcat(salida,"Cubo");
+        fprintf(archivo,"%s\n",salida);
+        break;
+    case 10:
+        strcat(salida,"Cuboide");
+        fprintf(archivo,"%s\n",salida);
+        break;
+    case 11:
+        strcat(salida,"Cilindro Recto");
+        fprintf(archivo,"%s\n",salida);
+        break;
+    case 12:
+        strcat(salida,"Esfera");
+        fprintf(archivo,"%s\n",salida);
+        break;    
+    case 13:
+        strcat(salida,"Cono circular recto");
+        fprintf(archivo,"%s\n",salida);
+        break;        
+    default:
+        strcat(salida,"Salida del sistema");
+        fprintf(archivo,"%s\n",salida);
+        break;
+    }
+    fclose(archivo);
+
+}
