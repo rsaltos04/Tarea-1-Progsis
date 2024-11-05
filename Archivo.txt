@@ -1,0 +1,9 @@
+Grupo 2
+Saltos Alava Jefferson - Lider
+Perdomo Ordoñez Paul - Colaborador
+Drouet Rodriguez Danilo - Colaborador
+Escogimos A Reynaldo por su capacidad de liderazgo
+Creamos un grupo de WhatsApp donde segun el tiempo disponible de cada uno nos repartimos 
+Reynaldo se encargo de los Area y perimetro 
+Perdomo se encargo de Superficie y Volumen
+Drouet se encargo de Makefile
